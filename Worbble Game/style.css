@@ -1,3 +1,4 @@
+
 h1 {
 display: flex;
 justify-content: center;	
@@ -25,4 +26,28 @@ display: flex;
 justify-content: center;
 align-items: center;
 
+}
+
+.correct {
+    background-color: green;
+    color: white;
+    border-color: white;
+}
+
+.present {
+    background-color: #C9B458;
+    color: white;
+    border-color: white;
+}
+
+.wrong {
+    background-color: gray;
+    color: white;
+    border-color:white;
+}
+
+.also-wrong {
+    background-color: gray;
+    color: white;
+    border-color:white;
 }
