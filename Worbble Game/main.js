@@ -14,8 +14,7 @@ initialize();
 
 // Create game board
 function initialize() {
-
-   // Create the game board
+       // Create the game board
     for (let r = 0; r < height; r++) {
         for (let c = 0; c < width; c++) {
             // <span id="0-0" class="tile">P</span>
@@ -26,9 +25,14 @@ function initialize() {
             document.getElementById("board").appendChild(tile);
         }
     }
+}
 
-	//keyboard input event listener
-document.removeEventListener ("keyup",keyboardInputs)
+let newDiv = document.createElement('div');
+newDiv.id = 'new-game';
+document.body.appendChild(newDiv);
+
+//keyboard input event listener
+document.removeEventListener ("keyup", keyboardInputs)     
 document.addEventListener ("keyup", keyboardInputs)
 
 function keyboardInputs(e){
@@ -56,9 +60,28 @@ else if (e.code === "Enter"){
 
 if (!gameOver && row === height){gameOver = true;
 	document.getElementById("answer").innerText = "Game Over! The Answer Is " + gameWord.toUpperCase();
+    let newDiv = document.getElementById('new-game');
+	let newGameBtn = document.createElement('button');
+	newGameBtn.id = 'newGameBtn';
+	newGameBtn.innerText = 'Start New Game';
+    newDiv.append(newGameBtn);
+    document.getElementById('newGameBtn').addEventListener('click', function() {
+    row = 0;
+    col = 0;
+    gameOver = false;
+
+    let board = document.getElementById("board");
+    while (board.firstChild) {
+      board.removeChild(board.firstChild);
+newDiv.remove(newGameBtn);
+document.getElementById("answer").innerText = "";
+    }
+initialize();    
+})
+
 }
 }
-}
+
 
 function update() {
 let correct = 0;
@@ -91,23 +114,28 @@ for (let i = 0; i < userLetters.length; i++) {
     let userLetterCount = userLetters.filter(letter => letter === userLetter).length;
 
     if (userLetterCount > gameWordLetterCount) {
+        let presentCount = 0; //the number of "present" letters
       for (let j = 0; j < userLetters.length; j++) {
         let currentTile = document.getElementById(row.toString() + '-' + j.toString());
-        if (currentTile.innerText.toLowerCase() === userLetter && currentTile.classList.contains("present")) {
-          currentTile.classList.remove("present");
-          currentTile.classList.add("wrong");
-        }
+       
+            if (presentCount < gameWordLetterCount) {
+              // Mark the correct number of instances as "present"
+              presentCount++;
+            } else {
+              // Mark the extra instances as "wrong"
+              currentTile.classList.remove("present");
+              currentTile.classList.add("wrong");
+            }
       }
     }
   }
 
 if (correct === width){gameOver = true;
     document.getElementById("answer").innerText = "You Win!";
-    let newDiv = document.getElementById('new-game');
 	let newGameBtn = document.createElement('button');
 	newGameBtn.id = 'newGameBtn';
 	newGameBtn.innerText = 'Start New Game';
-    newDiv.append(newGameBtn);
+    newDiv.appendChild(newGameBtn);
     document.getElementById('newGameBtn').addEventListener('click', function() {
     row = 0;
     col = 0;
@@ -121,11 +149,10 @@ if (correct === width){gameOver = true;
 newDiv.remove(newGameBtn);
 document.getElementById("answer").innerText = "";
     }
-initialize();    
+initialize();
+
 }
 );
 }
 }
 }
-
-//code in letter count
