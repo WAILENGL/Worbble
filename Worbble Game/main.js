@@ -1,7 +1,7 @@
 let height = 7; // number of guesses
 let width = 7; // number of letters
 
-// number denotes player's guessing position
+// number to identify player's guessing position
 let row = 0; // this is the row player is guessing in or attempt no.
 let col = 0; //  the current letter for the row
 
@@ -37,13 +37,13 @@ document.addEventListener ("keyup", keyboardInputs)
 
 
 function keyboardInputs(e){
-	if (gameOver) return;
+	if (gameOver) return; //if game is already over, prevents player from typing more on the board
 	if ("KeyA" <= e.code && e.code <= "KeyZ") {
         if (col < width) {  
             let currentTile = document.getElementById(row.toString() + '-' + col.toString());
             if (currentTile.innerText === "") {
                 currentTile.innerText = e.code[3];
-                col++;
+                col++; 
             }
         }
     }
@@ -54,15 +54,15 @@ function keyboardInputs(e){
 				currentTile.innerText = "";
 	}
 else if (e.code === "Enter"){
-    let anyEmpty = false;
+    let empty = false; // code black to prevent player from submitting guess when less than 7 letters
     for (let c = 0; c < width; c++) {
         let currentTile = document.getElementById(row.toString() + '-' + c.toString());
         if (currentTile.innerText === "") {
-            anyEmpty = true;
+            empty = true;
             break;
         }
     }
-    if (anyEmpty) {
+    if (empty) {
         return; 
     } else {
         update();
@@ -71,23 +71,31 @@ else if (e.code === "Enter"){
     }
 }
 
-if (!gameOver && row === height){gameOver = true;
+if (!gameOver && row === height){gameOver = true; // loss logic - when player submits wrong guess on last row
 	document.getElementById("answer").innerText = "Game Over! The Answer Is " + gameWord.toUpperCase();
+
+    //Generate a new Game Button for player to restart
 	let newGameBtn = document.createElement('button');
 	newGameBtn.id = 'newGameBtn';
 	newGameBtn.innerText = 'Start New Game';
     newDiv.append(newGameBtn);
-    document.getElementById('newGameBtn').addEventListener('click', function() {
+
+    //reset game state
+newGameBtn.addEventListener('click', function() {
     row = 0;
     col = 0;
     gameOver = false;
 
+    //code to remove previous board (or new game will just add onto previous board)
     let board = document.getElementById("board");
     while (board.firstChild) {
       board.removeChild(board.firstChild);
     }
+
+    //remove game button and text when new game button is clicked
     newDiv.removeChild(newGameBtn);
 document.getElementById("answer").innerText = "";
+document.removeEventListener ("keyup", keyboardInputs)       
 initialize();    
 
 })
@@ -97,22 +105,24 @@ initialize();
 
 
 function update() {
-let correct = 0;
+let correct = 0; // the number of correct leters in the guess word
 let userLetters = [];
-let gameWordLetters = gameWord.split("")
+let gameWordLetters = gameWord.split("") //this splits the gameWord into an array with each letter being a separate string
 
-for (let c = 0; c < width; c++) {
+
+for (let c = 0; c < width; c++) {  //iterates over the user's guess
 let currentTile = document.getElementById(row.toString() + '-' + c.toString());
-let letter = currentTile.innerText.toLowerCase();
-userLetters.push(letter);
+let letter = currentTile.innerText.toLowerCase(); 
+userLetters.push(letter); //this pushes each individual letter from the user's guess into the userLetters array as a separate string
 
 // is the letter in the correct position?
 
-if (gameWord[c] === letter) {
+if (gameWord[c] === letter) { //this checks if the letter = the letter in the gameWord in the same position
 currentTile.classList.add("correct");
 correct++;
+} 
 
-} // is it in the word? 
+// is it in the word? 
 
 else if (gameWord.includes(letter)) {currentTile.classList.add("present");
 
@@ -121,19 +131,19 @@ else if (gameWord.includes(letter)) {currentTile.classList.add("present");
 else { currentTile.classList.add("wrong");
 }
 
-for (let i = 0; i < userLetters.length; i++) {
-    let userLetter = userLetters[i];  
-  
-  }
+
+// game win logic
 
 if (correct === width){gameOver = true;
     document.getElementById("answer").innerText = "You Win!";
+
 	let newGameBtn = document.createElement('button');
 	newGameBtn.id = 'newGameBtn';
 	newGameBtn.innerText = 'Start New Game';
     newDiv.appendChild(newGameBtn);
     
-    document.getElementById('newGameBtn').addEventListener('click', function() {
+    //reset game state
+    newGameBtn.addEventListener('click', function() {
     row = 0;
     col = 0;
     gameOver = false;
@@ -159,4 +169,28 @@ initialize();
 }
 }
 
-//still need to work on repeat letters logic
+//still need to work on repeating letters logic - if there are more of the same letters in guess than in the gameWord, 
+/* the letter is still marked "present"
+- look into filter or reduce methods */
+
+
+// Example code to get letters in the user guess that exist in the gameWord, but have more instances in the user guess than the game word, marked "wrong"
+
+/* let gameWordLetterCount = gameWordLetters.filter(letter => letter === userLetter).length;
+let userLetterCount = userLetters.filter(letter => letter === userLetter).length;
+
+if (userLetterCount > gameWordLetterCount) {
+    let presentCount = 0; //the number of "present" letters
+  for (let j = 0; j < userLetters.length; j++) {
+    let currentTile = document.getElementById(row.toString() + '-' + j.toString());
+   
+        if (presentCount < gameWordLetterCount) {
+          // Mark the correct number of instances as "present"
+          presentCount++;
+        } else {
+          // Mark the extra instances as "wrong"
+          currentTile.classList.remove("present");
+          currentTile.classList.add("wrong");
+        }
+  }
+} */
