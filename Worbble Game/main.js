@@ -7,15 +7,19 @@ let col = 0; //  the current letter for the row
 
 let gameOver = false;
 let wordList = ["retinas", "nastier", "retains", "stainer", "antsier"]
-let gameWord = wordList[Math.floor(Math.random() * wordList.length)]
-
 
 initialize();
 
+let newDiv = document.createElement('div');
+newDiv.id = 'new-game';
+document.body.appendChild(newDiv);
+
 // Create game board
 function initialize() {
-       // Create the game board
-    for (let r = 0; r < height; r++) {
+    //Pick random word from wordList array
+    let gameWord = wordList[Math.floor(Math.random() * wordList.length)];
+ // Create the game board
+for (let r = 0; r < height; r++) {
         for (let c = 0; c < width; c++) {
             // <span id="0-0" class="tile">P</span>
             let tile = document.createElement("div");
@@ -25,15 +29,12 @@ function initialize() {
             document.getElementById("board").appendChild(tile);
         }
     }
-}
-
-let newDiv = document.createElement('div');
-newDiv.id = 'new-game';
-document.body.appendChild(newDiv);
+   
 
 //keyboard input event listener
-document.removeEventListener ("keyup", keyboardInputs)     
+ 
 document.addEventListener ("keyup", keyboardInputs)
+
 
 function keyboardInputs(e){
 	if (gameOver) return;
@@ -53,14 +54,25 @@ function keyboardInputs(e){
 				currentTile.innerText = "";
 	}
 else if (e.code === "Enter"){
-	update();
-	row ++; //start new row
-	col = 0; // start at 0 for new row
+    let anyEmpty = false;
+    for (let c = 0; c < width; c++) {
+        let currentTile = document.getElementById(row.toString() + '-' + c.toString());
+        if (currentTile.innerText === "") {
+            anyEmpty = true;
+            break;
+        }
+    }
+    if (anyEmpty) {
+        return; 
+    } else {
+        update();
+        row++; // Start new row
+        col = 0; // Start at 0 for new row
+    }
 }
 
 if (!gameOver && row === height){gameOver = true;
 	document.getElementById("answer").innerText = "Game Over! The Answer Is " + gameWord.toUpperCase();
-    let newDiv = document.getElementById('new-game');
 	let newGameBtn = document.createElement('button');
 	newGameBtn.id = 'newGameBtn';
 	newGameBtn.innerText = 'Start New Game';
@@ -73,10 +85,11 @@ if (!gameOver && row === height){gameOver = true;
     let board = document.getElementById("board");
     while (board.firstChild) {
       board.removeChild(board.firstChild);
-newDiv.remove(newGameBtn);
-document.getElementById("answer").innerText = "";
     }
+    newDiv.removeChild(newGameBtn);
+document.getElementById("answer").innerText = "";
 initialize();    
+
 })
 
 }
@@ -136,23 +149,29 @@ if (correct === width){gameOver = true;
 	newGameBtn.id = 'newGameBtn';
 	newGameBtn.innerText = 'Start New Game';
     newDiv.appendChild(newGameBtn);
+    
     document.getElementById('newGameBtn').addEventListener('click', function() {
     row = 0;
     col = 0;
     gameOver = false;
 
+    //remove previous board
     let board = document.getElementById("board");
     while (board.firstChild) {
       board.removeChild(board.firstChild);
-      // Remove Start New Game Button when game restarts
-
-newDiv.remove(newGameBtn);
-document.getElementById("answer").innerText = "";
     }
+
+    //removes new game button, the win message and keyboard event listener so it doesn't carry over to the next game.
+
+    newDiv.removeChild(newGameBtn);
+    document.getElementById("answer").innerText = "";
+    document.removeEventListener ("keyup", keyboardInputs)       
 initialize();
+
 
 }
 );
+}
 }
 }
 }
