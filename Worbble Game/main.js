@@ -123,24 +123,7 @@ else { currentTile.classList.add("wrong");
 
 for (let i = 0; i < userLetters.length; i++) {
     let userLetter = userLetters[i];  
-    let gameWordLetterCount = gameWordLetters.filter(letter => letter === userLetter).length;
-    let userLetterCount = userLetters.filter(letter => letter === userLetter).length;
-
-    if (userLetterCount > gameWordLetterCount) {
-        let presentCount = 0; //the number of "present" letters
-      for (let j = 0; j < userLetters.length; j++) {
-        let currentTile = document.getElementById(row.toString() + '-' + j.toString());
-       
-            if (presentCount < gameWordLetterCount) {
-              // Mark the correct number of instances as "present"
-              presentCount++;
-            } else {
-              // Mark the extra instances as "wrong"
-              currentTile.classList.remove("present");
-              currentTile.classList.add("wrong");
-            }
-      }
-    }
+  
   }
 
 if (correct === width){gameOver = true;
@@ -175,3 +158,5 @@ initialize();
 }
 }
 }
+
+//still need to work on repeat letters logic
