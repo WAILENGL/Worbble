@@ -138,7 +138,7 @@ Pseudo code is the process of taking a larger solution and breaking it down into
 ## Future Developments / Improvements
 While this was created for a project submission, I am interested in continuing to develop the game and seeing it through to the original vision I had for it if I have the time. These are some future developments/Improvements I might make:
 
-- Learn to import a full wordlist from another js file
+- Import a full wordlist from another js file
 - Add an onscreen keyboard
 - "Beautify" the UI and colors
 - Keep track of the user's score
