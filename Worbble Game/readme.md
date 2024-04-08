@@ -142,7 +142,8 @@ While this was created for a project submission, I am interested in continuing t
 - Add an onscreen keyboard
 - "Beautify" the UI and colors
 - Keep track of the user's score
-- provide a definition of the game words.
+- provide a definition of the game words
+- Introduce choice to play with different word lengths
 
 <br>
 
