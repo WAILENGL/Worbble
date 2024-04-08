@@ -78,7 +78,7 @@ When coding, I would make comments for 2 reasons:
 
 As I was still learning, I had to do a lot of searching and video watching to figure out the methods by which I could code what I had written out in pseudocode. I had to leave comments on the codes to reinforce my memory of what the code or method did. 
 
-AI was used to help break down and explain parts of the code that I didn't fully understand, or to help find errors in my code if I couldn't figure out why it wasn't working even though it looked correct. 
+AI was used to help break down and explain parts of the code that I didn't fully understand in terms of why they were or were not working, or to help find errors in my code if I couldn't figure out why it wasn't working even though it looked correct. 
 
 <br>
 
