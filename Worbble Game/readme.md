@@ -55,7 +55,7 @@ Simply start typing in a 7 letter word to start guessing. Use the lit up squares
 <br>
 
 ## Ideation and Game Architecture
-I used drawio to visualize what the game would look like and the different components a Wordle-based game would include. This helped me to identify what I might need to code in html and css, and figure out was needed to interact with the different elements of the page in JS. 
+I grabbed a version of Worddle similar to what I envisioned and from there identified what I might need to code in html and css, and figure out was needed to interact with the different elements of the page in JS. 
 
 I played a few different versions of Wordle to observe how the game flowed, what were the essential components, and what elements would be the most efficient to implement for an MVP.
 
